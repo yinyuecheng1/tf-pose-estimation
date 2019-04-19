@@ -48,7 +48,7 @@ if __name__ == '__main__':
     fourcc=cv2.VideoWriter_fourcc(*'XVID')  
     # print(image.shape[0],image.shape[1])
     frame_size = (int(cam.get(cv2.CAP_PROP_FRAME_WIDTH)),int(cam.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-    videoWriter = cv2.VideoWriter('ikun.avi', fourcc, fps, frame_size)
+    videoWriter = cv2.VideoWriter('ikun_bg.avi', fourcc, fps, frame_size)
     while ret_val:
                
         print(image.shape)
@@ -58,10 +58,10 @@ if __name__ == '__main__':
 
         logger.debug('postprocess+')
         # 创建一个空黑色背景图片
-        black_image = np.zeros(image.shape, np.uint8)
-        black_image[...] = 0
+        #black_image = np.zeros(image.shape, np.uint8)
+        #black_image[...] = 0
 
-        pose_img = TfPoseEstimator.draw_humans(black_image, humans, imgcopy=False)
+        pose_img = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
 
         logger.debug('show+')
         '''
