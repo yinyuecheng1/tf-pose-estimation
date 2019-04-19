@@ -23,12 +23,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='tf-pose-estimation realtime webcam')
     parser.add_argument('--video', type=str, default=0)
 
-    parser.add_argument('--resize', type=str, default='480x320',
+    parser.add_argument('--resize', type=str, default='256x256',
                         help='if provided, resize images before they are processed. default=0x0, Recommends : 432x368 or 656x368 or 1312x736 ')
     parser.add_argument('--resize-out-ratio', type=float, default=4.0,
                         help='if provided, resize heatmaps before they are post-processed. default=1.0')
 
-    parser.add_argument('--model', type=str, default='mobilenet_thin', help='cmu / mobilenet_thin / mobilenet_v2_large / mobilenet_v2_small')
+    parser.add_argument('--model', type=str, default='cmu', help='cmu / mobilenet_thin / mobilenet_v2_large / mobilenet_v2_small')
     parser.add_argument('--show-process', type=bool, default=False,
                         help='for debug purpose, if enabled, speed for inference is dropped.')
     args = parser.parse_args()
@@ -40,15 +40,15 @@ if __name__ == '__main__':
     else:
         e = TfPoseEstimator(get_graph_path(args.model), target_size=(432, 368))
     logger.debug('cam read+')
-    cam = cv2.VideoCapture('test.mp4')
+    cam = cv2.VideoCapture('ikun.mp4')
     ret_val, image = cam.read()
     logger.info('cam image=%dx%d' % (image.shape[1], image.shape[0]))
 
     fps = cam.get(cv2.CAP_PROP_FPS) #视频帧率
     fourcc=cv2.VideoWriter_fourcc(*'XVID')  
-    #print(image.shape[0],image.shape[1])
+    # print(image.shape[0],image.shape[1])
     frame_size = (int(cam.get(cv2.CAP_PROP_FRAME_WIDTH)),int(cam.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-    videoWriter = cv2.VideoWriter('out.avi', fourcc, fps, frame_size)
+    videoWriter = cv2.VideoWriter('ikun.avi', fourcc, fps, frame_size)
     while ret_val:
                
         print(image.shape)
@@ -57,7 +57,10 @@ if __name__ == '__main__':
         humans = e.inference(image, resize_to_default=(w > 0 and h > 0), upsample_size=args.resize_out_ratio)
 
         logger.debug('postprocess+')
-        pose_img = TfPoseEstimator.draw_humans(image, humans, imgcopy=False)
+        emptyImage = np.zeros(image.shape, np.uint8)
+        emptyImage[...] = 0
+
+        pose_img = TfPoseEstimator.draw_humans(emptyImage, humans, imgcopy=False)
 
         logger.debug('show+')
         '''
