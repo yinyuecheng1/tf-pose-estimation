@@ -40,7 +40,7 @@ if __name__ == '__main__':
     else:
         e = TfPoseEstimator(get_graph_path(args.model), target_size=(432, 368))
     logger.debug('cam read+')
-    cam = cv2.VideoCapture('../cai.mp4')
+    cam = cv2.VideoCapture('test.mp4')
     ret_val, image = cam.read()
     logger.info('cam image=%dx%d' % (image.shape[1], image.shape[0]))
 
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     fourcc=cv2.VideoWriter_fourcc(*'XVID')  
     #print(image.shape[0],image.shape[1])
     frame_size = (int(cam.get(cv2.CAP_PROP_FRAME_WIDTH)),int(cam.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-    videoWriter = cv2.VideoWriter(args.video, fourcc, fps, frame_size)
+    videoWriter = cv2.VideoWriter('out.avi', fourcc, fps, frame_size)
     while ret_val:
                
         print(image.shape)

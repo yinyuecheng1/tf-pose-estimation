@@ -6,8 +6,11 @@ numba
 psutil
 pycocotools
 requests
+opencv-python
 scikit-image
 scipy
+numpy
 slidingwindow
+tensorflow
 tqdm
 git+https://github.com/ppwwyyxx/tensorpack.git
