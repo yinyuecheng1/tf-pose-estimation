@@ -57,10 +57,11 @@ if __name__ == '__main__':
         humans = e.inference(image, resize_to_default=(w > 0 and h > 0), upsample_size=args.resize_out_ratio)
 
         logger.debug('postprocess+')
-        emptyImage = np.zeros(image.shape, np.uint8)
-        emptyImage[...] = 0
+        # 创建一个空黑色背景图片
+        black_image = np.zeros(image.shape, np.uint8)
+        black_image[...] = 0
 
-        pose_img = TfPoseEstimator.draw_humans(emptyImage, humans, imgcopy=False)
+        pose_img = TfPoseEstimator.draw_humans(black_image, humans, imgcopy=False)
 
         logger.debug('show+')
         '''
